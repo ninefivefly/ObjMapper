@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'ObjMapper_Example' do
+  pod 'ObjMapper', :path => '../'
+
+  target 'ObjMapper_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
