@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'ObjMapper'
   s.version          = '1.0.0'
-  s.summary          = 'A short description of ObjMapper.'
+  s.summary          = 'A simple json object mapper for swift.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  ObjtMapper是基于Swift的Codable协议进行扩展的框架，可让您轻松地将模型对象（类和结构）与JSON相互转换，无副作用的转换。
                        DESC
 
-  s.homepage         = 'https://github.com/JIANG PENG CHENG/ObjMapper'
+  s.homepage         = 'https://github.com/ninefivefly/ObjMapper'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'JIANG PENG CHENG' => 'ninefivefly@foxmail.com' }
-  s.source           = { :git => 'https://github.com/JIANG PENG CHENG/ObjMapper.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ninefivefly/ObjMapper.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'

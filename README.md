@@ -1,24 +1,28 @@
 # ObjMapper
 
-[![CI Status](https://img.shields.io/travis/JIANG PENG CHENG/ObjMapper.svg?style=flat)](https://travis-ci.org/JIANG PENG CHENG/ObjMapper)
+[![CI Status](https://img.shields.io/travis/ninefivefly/ObjMapper.svg?style=flat)](https://travis-ci.org/ninefivefly/ObjMapper)
 [![Version](https://img.shields.io/cocoapods/v/ObjMapper.svg?style=flat)](https://cocoapods.org/pods/ObjMapper)
 [![License](https://img.shields.io/cocoapods/l/ObjMapper.svg?style=flat)](https://cocoapods.org/pods/ObjMapper)
 [![Platform](https://img.shields.io/cocoapods/p/ObjMapper.svg?style=flat)](https://cocoapods.org/pods/ObjMapper)
 
-## Example
+## 特性
+- [x] 基于Codable的扩展
+- [x] JSON映射为object
+- [x] object映射为JSON
+- [x] 嵌套对象
+- [x] 支持nil对象
+- [x] 支持默认值
+- [x] 支持String和整数、浮点数、Bool之间的转换
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-## Installation
-
-ObjMapper is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+## 安装
 
 ```ruby
 pod 'ObjMapper'
 ```
+
+## 使用示例
+
+
 
 ## Author
 
