@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ObjMapper'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'A simple json object mapper for swift.'
 
 # This description is used to generate tags and improve search results.
