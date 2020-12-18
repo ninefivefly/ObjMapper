@@ -63,6 +63,12 @@ public extension KeyedDecodingContainer {
     }
 }
 
+public extension KeyedEncodingContainer {
+    mutating func encode<T>(_ value: Backed<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T : LosslessStringConvertible{
+        try encodeIfPresent(value.wrappedValue, forKey: key)
+    }
+}
+
 public extension Int {
     enum Zero: DefaultValue {
         public static let defaultValue = 0
@@ -138,6 +144,37 @@ extension Bool {
     }
 }
 
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryInteger & LosslessStringConvertible {
+    if let num = try? container.decode(Int64.self) {
+        return U(num) as? T
+    } else if let str = try? container.decode(String.self) {
+        return U(str) as? T
+    } else if let num = try? container.decode(UInt64.self) {
+        return U(num) as? T
+    }  else if let num = try? container.decode(Double.self) {
+        return U(num) as? T
+    } else if let bool = try? container.decode(Bool.self) {
+        return U(bool ? 1 : 0) as? T
+    } else {
+        return nil
+    }
+}
+
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryFloatingPoint & LosslessStringConvertible {
+    if let num = try? container.decode(Int64.self) {
+        return U(num) as? T
+    } else if let str = try? container.decode(String.self) {
+        return U(str) as? T
+    } else if let num = try? container.decode(UInt64.self) {
+        return U(num) as? T
+    } else if let num = try? container.decode(Double.self) {
+        return U(num) as? T
+    } else if let bool = try? container.decode(Bool.self) {
+        return U(bool ? 1 : 0) as? T
+    } else {
+        return nil
+    }
+}
 
 private func decodeValue<T: Codable>(with container: SingleValueDecodingContainer) -> T? {
     if let v = try? container.decode(T.self) {
@@ -162,36 +199,30 @@ private func decodeValue<T: Codable>(with container: SingleValueDecodingContaine
         }  else if let num = try? container.decode(Double.self) {
             return (num != 0) as? T
         }
-    } else {
-        if let string = try? container.decode(String.self) {
-            if T.self == Int.self {
-                return Int(string) as? T
-            } else if T.self == Float.self {
-               return Float(string) as? T
-            } else if T.self == Bool.self {
-                return Bool(string) as? T
-            } else if T.self == Double.self {
-                return Double(string) as? T
-            } else if T.self == UInt.self {
-                return UInt(string) as? T
-            } else if T.self == Int8.self {
-                return Int8(string) as? T
-            } else if T.self == Int16.self {
-                return Int16(string) as? T
-            } else if T.self == Int32.self {
-                return Int32(string) as? T
-            } else if T.self == Int64.self {
-                return Int64(string) as? T
-            } else if T.self == UInt8.self {
-                return UInt8(string) as? T
-            } else if T.self == UInt16.self {
-                return UInt16(string) as? T
-            } else if T.self == UInt32.self {
-                return UInt32(string) as? T
-            } else if T.self == UInt64.self {
-                return UInt64(string) as? T
-            }
-        }
+    } else if T.self == Int.self {
+        return decodeValue(with: container, type: Int(0))
+    } else if T.self == UInt.self {
+        return decodeValue(with: container, type: UInt(0))
+    } else if T.self == Double.self {
+        return decodeValue(with: container, type: Double(0))
+    } else if T.self == Float.self {
+        return decodeValue(with: container, type: Float(0))
+    } else if T.self == Int8.self {
+        return decodeValue(with: container, type: Int8(0))
+    } else if T.self == Int16.self {
+        return decodeValue(with: container, type: Int16(0))
+    } else if T.self == Int32.self {
+        return decodeValue(with: container, type: Int32(0))
+    } else if T.self == Int64.self {
+        return decodeValue(with: container, type: Int64(0))
+    } else if T.self == UInt8.self {
+        return decodeValue(with: container, type: UInt8(0))
+    } else if T.self == UInt16.self {
+        return decodeValue(with: container, type: UInt16(0))
+    } else if T.self == UInt32.self {
+        return decodeValue(with: container, type: UInt32(0))
+    } else if T.self == UInt64.self {
+        return decodeValue(with: container, type: UInt64(0))
     }
     
     return nil
