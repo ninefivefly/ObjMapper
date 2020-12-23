@@ -135,12 +135,12 @@ public extension String{
     }
 }
 
-extension Bool {
+public extension Bool {
     enum False: DefaultValue {
-        static let defaultValue = false
+        public static let defaultValue = false
     }
     enum True: DefaultValue {
-        static let defaultValue = true
+        public static let defaultValue = true
     }
 }
 
