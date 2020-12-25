@@ -106,6 +106,37 @@ struct Article: Codable {
     var author: Author
 }
 
+struct Activity: Codable {
+    ///Step 1：让Status遵循DefaultValue协议
+    enum Status: Int, Codable, DefaultValue {
+        case start = 1//活动开始
+        case processing = 2//活动进行中
+        case end = 3//活动结束
+        case unknown = 0//默认值，无意义
+        
+        ///Step 2：实现DefaultValue协议，指定一个默认
+        static let defaultValue = Status.unknown
+    }
+    
+    @Default<String.Empty> var name: String
+    ///Step 3：使用Default
+    @Default<Status> var status: Status//活动状态
+}
+
+///对可选类型值的支持
+let json = """
+{
+    "name": "元旦迎新活动",
+    "status": 4
+}
+"""
+///可选类型自动转换
+let activity = Activity.decodeJSON(from: json)!
+///activity的status，转换为unknown
+print("activity.status: \(activity.status)")
+///
+print("json：\(activity.jsonString ?? "")")
+
 //JSON to model
 let article = Article.decodeJSON(from: json)
 
@@ -160,6 +191,24 @@ struct Activity: Codable {
 
 //{"name": "元旦迎新活动", "status": 4 }
 //Activity将会把status解析成unknown
+```
+
+### 为普通类型设置不一样的默认值
+本库已经内置了很多默认值，比如Int.Zero, Bool.True, String.Empty...，如果我们想为字段设置不一样的默认值，见下面代码：
+
+```
+public extension Int {
+    enum One: DefaultValue {
+        public static let defaultValue = 1
+    }
+}
+
+struct Dog: Codable{
+    @Backed var name: String?
+    @Default<Int.Zero> var uid: Int
+    //如果json中没有age字段或者解析失败，则模型的age被设置成默认值1
+    @Default<Int.One> var age: Int
+}
 ```
 
 ## Author
