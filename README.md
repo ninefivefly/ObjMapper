@@ -30,8 +30,8 @@ so，我们如果把这些问题解决了，是不是就完美啦
 ```objc
 // JSON:
 {
-    "uid":123456,
-    "name":"Harry",
+    "uid":888888,
+    "name":"Tom",
     "age":10
 }
 
@@ -83,8 +83,8 @@ let json = dog.toJSONString()
 ```objc
 {
     "author":{
-        "id": 123456
-        "name":"J.K.Rowling",
+        "id": 888888
+        "name":"Alex",
         "age":"10"
     },
     "title":"model与json互转",
