@@ -8,14 +8,14 @@
 import Foundation
 
 public extension Encodable {
-    func toJSONString() -> String? {
+    var jsonString: String? {
         guard let data = try? JSONEncoder().encode(self) else {
             return nil
         }
         return String(data: data, encoding: .utf8)
     }
     
-    func toJSONObject() -> Any? {
+    var jsonObject: Any? {
         guard let data = try? JSONEncoder().encode(self) else {
             return nil
         }
