@@ -27,7 +27,8 @@ so，我们如果把这些问题解决了，是不是就完美啦
 [如何优雅的使用Codable协议](https://juejin.cn/post/6910094553684901895/)
 
 ## 使用教程
-### Model与JSON相互转换
+
+<details><summary><strong>1、Model与JSON相互转换</strong></summary>
 ```objc
 // JSON:
 {
@@ -79,8 +80,9 @@ let json = dog.toJSONString()
     </tr>
   </tbody>
 </table>
+</details>
 
-### Model的嵌套
+<details><summary><strong>2、Model的嵌套</strong></summary>
 ```objc
 {
     "author":{
@@ -144,8 +146,9 @@ let article = Article.decodeJSON(from: json)
 //model to json
 let json = article.toJSONString()
 ```
+</details>
 
-### 自定义类型的可选值
+<details><summary><strong>3、自定义类型的可选值</strong></summary>
 话不多说，上代码
 ```objc
 struct Activity: Codable {
@@ -193,8 +196,9 @@ struct Activity: Codable {
 //{"name": "元旦迎新活动", "status": 4 }
 //Activity将会把status解析成unknown
 ```
+</details>
 
-### 为普通类型设置不一样的默认值
+<details><summary><strong>4、为普通类型设置不一样的默认值</strong></summary>
 本库已经内置了很多默认值，比如Int.Zero, Bool.True, String.Empty...，如果我们想为字段设置不一样的默认值，见下面代码：
 
 ```
@@ -211,8 +215,9 @@ struct Dog: Codable{
     @Default<Int.One> var age: Int
 }
 ```
+</details>
 
-不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
+ps: 不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
 
 ## Author
 
