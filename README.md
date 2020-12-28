@@ -27,10 +27,8 @@ so，我们如果把这些问题解决了，是不是就完美啦
 [如何优雅的使用Codable协议](https://juejin.cn/post/6910094553684901895/)
 
 ## 使用教程
-
-<details><summary><strong>1、Model与JSON相互转换</strong></summary>
-<pre>
-```
+### Model与JSON相互转换
+```objc
 // JSON:
 {
     "uid":888888,
@@ -53,7 +51,6 @@ let dog = Dog.decodeJSON(from: json)
 //model to json
 let json = dog.toJSONString()
 ```
-</pre>
 
 当 JSON/Dictionary 中的对象类型与 Model 属性不一致时，ObjMapper 将会进行如下自动转换。自动转换不支持的值将会被设置为nil或者默认值。
 <table>
@@ -82,9 +79,8 @@ let json = dog.toJSONString()
     </tr>
   </tbody>
 </table>
-</details>
 
-<details><summary><strong>2、Model的嵌套</strong></summary>
+### Model的嵌套
 ```objc
 {
     "author":{
@@ -148,9 +144,8 @@ let article = Article.decodeJSON(from: json)
 //model to json
 let json = article.toJSONString()
 ```
-</details>
 
-<details><summary><strong>3、自定义类型的可选值</strong></summary>
+### 自定义类型的可选值
 话不多说，上代码
 ```objc
 struct Activity: Codable {
@@ -198,9 +193,8 @@ struct Activity: Codable {
 //{"name": "元旦迎新活动", "status": 4 }
 //Activity将会把status解析成unknown
 ```
-</details>
 
-<details><summary><strong>4、为普通类型设置不一样的默认值</strong></summary>
+### 为普通类型设置不一样的默认值
 本库已经内置了很多默认值，比如Int.Zero, Bool.True, String.Empty...，如果我们想为字段设置不一样的默认值，见下面代码：
 
 ```
@@ -217,9 +211,8 @@ struct Dog: Codable{
     @Default<Int.One> var age: Int
 }
 ```
-</details>
 
-ps: 不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
+不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
 
 ## Author
 
