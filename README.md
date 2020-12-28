@@ -29,7 +29,6 @@ so，我们如果把这些问题解决了，是不是就完美啦
 ## 使用教程
 
 <details><summary><strong>1、Model与JSON相互转换</strong></summary>
-```objc
 // JSON:
 {
     "uid":888888,
@@ -51,7 +50,6 @@ let dog = Dog.decodeJSON(from: json)
 
 //model to json
 let json = dog.toJSONString()
-```
 
 当 JSON/Dictionary 中的对象类型与 Model 属性不一致时，ObjMapper 将会进行如下自动转换。自动转换不支持的值将会被设置为nil或者默认值。
 <table>
