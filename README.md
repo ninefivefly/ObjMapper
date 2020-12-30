@@ -49,7 +49,7 @@ struct Dog: Codable{
 let dog = Dog.decodeJSON(from: json)
 
 //model to json
-let json = dog.toJSONString()
+let json = dog.jsonString
 ```
 
 当 JSON/Dictionary 中的对象类型与 Model 属性不一致时，ObjMapper 将会进行如下自动转换。自动转换不支持的值将会被设置为nil或者默认值。
@@ -142,7 +142,7 @@ print("json：\(activity.jsonString ?? "")")
 let article = Article.decodeJSON(from: json)
 
 //model to json
-let json = article.toJSONString()
+let json = article.jsonString
 ```
 
 ### 3、自定义类型的可选值
