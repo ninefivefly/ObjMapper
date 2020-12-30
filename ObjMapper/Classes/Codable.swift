@@ -24,11 +24,11 @@ public extension Encodable {
 }
 
 public extension Decodable {
-    static func decodeJSON(from string: String?, designatedPath: String? = nil) -> Self? {
+    @inline(__always) static func decodeJSON(from string: String?, designatedPath: String? = nil) -> Self? {
         decodeJSON(from: string?.data(using: .utf8), designatedPath: designatedPath)
     }
     
-    static func decodeJSON(from jsonObject: Any?, designatedPath: String? = nil) -> Self? {
+    @inline(__always) static func decodeJSON(from jsonObject: Any?, designatedPath: String? = nil) -> Self? {
         if let jsonObject = jsonObject,
             JSONSerialization.isValidJSONObject(jsonObject),
             let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: []){
@@ -37,7 +37,7 @@ public extension Decodable {
         return nil
     }
     
-    static func decodeJSON(from data: Data?, designatedPath: String? = nil) -> Self? {
+    @inline(__always) static func decodeJSON(from data: Data?, designatedPath: String? = nil) -> Self? {
         guard let data = data,
             let jsonData = getInnerObject(inside: data, by: designatedPath) else {
                 return nil
