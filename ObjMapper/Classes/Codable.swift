@@ -47,7 +47,7 @@ public extension Decodable {
 }
 
 public extension Array where Element: Codable {
-    static func decodeJSON(from jsonString: String?, designatedPath: String? = nil) -> [Element?]? {
+    static func decodeJSON(from jsonString: String?, designatedPath: String? = nil) -> [Element]? {
         guard let data = jsonString?.data(using: .utf8),
             let jsonData = getInnerObject(inside: data, by: designatedPath),
             let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [Any] else {
@@ -56,8 +56,8 @@ public extension Array where Element: Codable {
         return Array.decodeJSON(from: jsonObject)
     }
     
-    static func decodeJSON(from array: [Any]?) -> [Element?]? {
-        return array?.map({ (item) -> Element? in
+    static func decodeJSON(from array: [Any]?) -> [Element]? {
+        return array?.compactMap({ (item) -> Element? in
             return Element.decodeJSON(from: item)
         })
     }
