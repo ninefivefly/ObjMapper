@@ -96,7 +96,9 @@ let json = dog.jsonString
 struct Author: Codable{
     @Default<Int.Zero> var uid: Int
     @Default<String.Empty> var name: String
-    //使用Backed后，如果类型不匹配，则会类型转换
+    //使用Backed后，如果类型不匹配，则类型会自动转换
+    //比如，上面的json中，age是个字符串，我们定义的模型是Int,
+    //那么声明@Backed后，会自动转换成Int类型
     @Backed var age: Int?
 }
 

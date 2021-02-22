@@ -1,5 +1,5 @@
 PODS:
-  - ObjMapper (1.0.0)
+  - ObjMapper (1.0.7)
 
 DEPENDENCIES:
   - ObjMapper (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ObjMapper: ddf7e8359742b9976afcb6779014eacc3f774b52
+  ObjMapper: a914f1bedf25136e988d709191755ace918b3ff6
 
 PODFILE CHECKSUM: 9a54aae321bbb84fbfd1fdcc24ac848468d725e8
 

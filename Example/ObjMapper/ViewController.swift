@@ -43,6 +43,10 @@ class ViewController: UIViewController {
             @Backed var doubleToInt: Int?
             ///4.布尔值自动转换成整数
             @Backed var boolToInt: Int?
+            ///5.Double类型支持
+            @Backed var double: Double?
+            ///6.Float类型支持
+            @Backed var float: Float?
         }
 
         struct Object: Codable {
@@ -65,6 +69,10 @@ class ViewController: UIViewController {
             @Default<Int.Zero> var doubleToInt: Int
             ///4.布尔值自动转换成整数，如果转换不成功就取默认值
             @Default<Int.Zero> var boolToInt: Int
+            ///5.Double类型支持
+            @Default<Double.Zero> var double: Double
+            ///6.Float类型支持
+            @Default<Float.Zero> var float: Float
         }
 
         
@@ -77,6 +85,8 @@ class ViewController: UIViewController {
             "stringToInt": "11",
             "doubleToInt": 13.13,
             "boolToInt": true,
+            "double":14.1412312312312312,
+            "float":15.0,
             "status": 99999
         }
         """

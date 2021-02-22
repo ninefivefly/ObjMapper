@@ -129,6 +129,18 @@ public extension UInt64{
     }
 }
 
+public extension Double{
+    enum Zero: DefaultValue {
+        public static let defaultValue: Double = 0
+    }
+}
+
+public extension Float{
+    enum Zero: DefaultValue {
+        public static let defaultValue: Float = 0
+    }
+}
+
 public extension String{
     enum Empty: DefaultValue {
         public static let defaultValue = ""
