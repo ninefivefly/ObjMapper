@@ -214,6 +214,28 @@ struct Dog: Codable{
 }
 ```
 
+### 5、设置通用类型
+我们在开发过程中，第一个遇到的json可能是这样的：
+```objc
+// JSON:
+{
+    "code":0,
+    "message":"success",
+    "data":[]//这个data可以是任何类型
+}
+```
+由于data字段的类型不固定，有时候为了统一处理，我们定义模型可以像下面这样，有枚举类型JsonValue来表示。
+```
+struct Response: Codable { 
+    var code: Int
+    var message: String
+    var data: JsonValue?
+}
+```
+如果要取data字段的值，我们可以这样用data?.intValue或者data?.arrayValue等等，具体使用见源码。
+
+注意：这种对于data是一个简单的model（比如就是一个整形、字符串等等），可以起到事半功倍的效果；如果data是一个大型model，建议还是将data指定为具体类型。
+
 ps: 不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
 
 ## Author
