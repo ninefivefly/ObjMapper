@@ -11,6 +11,7 @@
 - [x] 嵌套对象
 - [x] 支持nil对象
 - [x] 支持默认值
+- [x] 支持数组默认值
 - [x] 支持String和整数、浮点数、Bool之间的转换
 
 ## 安装
@@ -118,7 +119,9 @@ struct Activity: Codable {
         case unknown = 0//默认值，无意义
         
         ///Step 2：实现DefaultValue协议，指定一个默认
-        static let defaultValue = Status.unknown
+        static func defaultValue() -> Status {
+            return Status.unknown
+        }
     }
     
     @Default<String.Empty> var name: String
@@ -184,7 +187,9 @@ struct Activity: Codable {
         case unknown = 0//默认值，无意义
         
         ///Step 2：实现DefaultValue协议，指定一个默认值
-        static let defaultValue = Status.unknown
+        static func defaultValue() -> Status {
+            return Status.unknown
+        }
     }
     
     @Default<String.Empty> var name: String
@@ -202,7 +207,9 @@ struct Activity: Codable {
 ```
 public extension Int {
     enum One: DefaultValue {
-        public static let defaultValue = 1
+        static func defaultValue() -> Int {
+            return 1
+        }
     }
 }
 
@@ -214,7 +221,43 @@ struct Dog: Codable{
 }
 ```
 
-### 5、设置通用类型
+### 5、数组支持
+```objc
+// JSON:
+{
+    "code":0,
+    "message":"success",
+    "data": [{
+        "name": "元旦迎新活动",
+        "status": 4
+    }]
+}
+```
+对于数组，可以使用@Backed,@Default来解析
+```
+struct Activaty: Codable{
+    @Default<String.Empty> var name: String
+    @Default<Int.Zero> var status: Int
+}
+
+// 如果数组是可选类型，可以使用@Backed
+struct Response: Codable { 
+    @Default<Int.Zero> var code: Int
+    @Default<String.Empty> var message: String
+    @Backed var data: [Activaty]?
+}
+
+// 为数组，设置默认值，如果数组不存在或者解析错误，则使用默认值
+struct Response: Codable { 
+    @Default<Int.Zero> var code: Int
+    @Default<String.Empty> var message: String
+    @Default<Array.Empty> var data: [Activaty]
+}
+```
+
+
+
+### 6、设置通用类型
 我们在开发过程中，第一个遇到的json可能是这样的：
 ```objc
 // JSON:
@@ -235,6 +278,33 @@ struct Response: Codable {
 如果要取data字段的值，我们可以这样用data?.intValue或者data?.arrayValue等等，具体使用见源码。
 
 注意：这种对于data是一个简单的model（比如就是一个整形、字符串等等），可以起到事半功倍的效果；如果data是一个大型model，建议还是将data指定为具体类型。
+
+
+### 7、如果是从1.0.x升级到2.0版本，修改了DefaultValue协议。如果之前的代码中使用了DefaultValue协议，则会报错，修改如下：
+
+```
+原来为：
+///Step 1：让Status遵循DefaultValue协议
+enum Status: Int, Codable, DefaultValue {
+    case start = 1//活动开始
+    
+    ///Step 2：实现DefaultValue协议，指定一个默认值
+    static let defaultValue = Status.unknown
+}
+
+修改成：
+///Step 1：让Status遵循DefaultValue协议
+enum Status: Int, Codable, DefaultValue {
+    case start = 1//活动开始
+    
+    ///Step 2：实现DefaultValue协议，返回一个默认值
+    static func defaultValue() -> Status {
+        return Status.unknown
+    }
+}
+
+```
+
 
 ps: 不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
 

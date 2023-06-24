@@ -133,8 +133,7 @@ class ViewController: UIViewController {
                 case end = 3//活动结束
                 case unknown = 0//默认值，无意义
                 
-                ///Step 2：实现DefaultValue协议，指定一个默认
-//                static let defaultValue = Status.unknown
+                ///Step 2：实现DefaultValue协议，指定一个默认值
                 static func defaultValue() -> Status {
                     return Status.unknown
                 }
