@@ -8,7 +8,7 @@
 import Foundation
 
 @propertyWrapper
-public struct Backed<T: Codable & LosslessStringConvertible>: Codable {
+public struct Backed<T: Codable & CustomStringConvertible>: Codable {
     public var wrappedValue: T?
     @inline(__always) public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -31,7 +31,7 @@ public struct Backed<T: Codable & LosslessStringConvertible>: Codable {
 
 public protocol DefaultValue {
     associatedtype Value: Codable
-    static var defaultValue: Value { get }
+    static func defaultValue() -> Value
 }
 
 @propertyWrapper
@@ -49,118 +49,157 @@ public struct Default<T: DefaultValue>: Codable {
     
     @inline(__always) public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        wrappedValue = decodeValue(with: container) ?? T.defaultValue
+        wrappedValue = decodeValue(with: container) ?? T.defaultValue()
     }
 }
 
 public extension KeyedDecodingContainer {
     @inline(__always) func decode<T>(_ type: Default<T>.Type, forKey key: Key) throws -> Default<T> where T: DefaultValue {
-        try decodeIfPresent(type, forKey: key) ?? Default(wrappedValue: T.defaultValue)
+        try decodeIfPresent(type, forKey: key) ?? Default(wrappedValue: T.defaultValue())
     }
     
-    @inline(__always) func decode<T>(_ type: Backed<T>.Type, forKey key: Key) throws -> Backed<T> where T: LosslessStringConvertible {
+    @inline(__always) func decode<T>(_ type: Backed<T>.Type, forKey key: Key) throws -> Backed<T> where T: CustomStringConvertible {
         try decodeIfPresent(type, forKey: key) ?? Backed<T>()
     }
 }
 
 public extension KeyedEncodingContainer {
-    @inline(__always) mutating func encode<T>(_ value: Backed<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T : LosslessStringConvertible{
+    @inline(__always) mutating func encode<T>(_ value: Backed<T>, forKey key: KeyedEncodingContainer<K>.Key) throws where T : CustomStringConvertible{
         try encodeIfPresent(value.wrappedValue, forKey: key)
     }
 }
 
 public extension Int {
     enum Zero: DefaultValue {
-        public static let defaultValue = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension Int8{
     enum Zero: DefaultValue {
-        public static let defaultValue: Int8 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension Int16{
     enum Zero: DefaultValue {
-        public static let defaultValue: Int16 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension Int32{
     enum Zero: DefaultValue {
-        public static let defaultValue: Int32 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension Int64{
     enum Zero: DefaultValue {
-        public static let defaultValue: Int64 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension UInt{
     enum Zero: DefaultValue {
-        public static let defaultValue: UInt = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension UInt8{
     enum Zero: DefaultValue {
-        public static let defaultValue: UInt8 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension UInt16{
     enum Zero: DefaultValue {
-        public static let defaultValue: UInt16 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension UInt32{
     enum Zero: DefaultValue {
-        public static let defaultValue: UInt32 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension UInt64{
     enum Zero: DefaultValue {
-        public static let defaultValue: UInt64 = 0
+        public static func defaultValue() -> Int {
+            return 0
+        }
     }
 }
 
 public extension Double{
     enum Zero: DefaultValue {
-        public static let defaultValue: Double = 0
+        public static func defaultValue() -> Double {
+            return 0
+        }
     }
 }
 
 public extension Float{
     enum Zero: DefaultValue {
-        public static let defaultValue: Float = 0
+        public static func defaultValue() -> Float {
+            return 0
+        }
     }
 }
 
 public extension String{
     enum Empty: DefaultValue {
-        public static let defaultValue = ""
+        public static func defaultValue() -> String {
+            return ""
+        }
     }
 }
 
 public extension Bool {
     enum False: DefaultValue {
-        public static let defaultValue = false
+        public static func defaultValue() -> Bool {
+            return false
+        }
     }
     enum True: DefaultValue {
-        public static let defaultValue = true
+        public static func defaultValue() -> Bool {
+            return true
+        }
     }
 }
 
-private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryInteger & LosslessStringConvertible {
+public extension Array where Array.Element: Codable {
+    enum Empty: DefaultValue{
+        public typealias Value = Array<Array.Element>
+        public static func defaultValue() -> Value {
+            return Array<Array.Element>()
+        }
+    }
+}
+
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryInteger & CustomStringConvertible {
     if let num = try? container.decode(Int64.self) {
         return U(num) as? T
     } else if let str = try? container.decode(String.self) {
-        return U(str) as? T
+        return str as? T
     } else if let num = try? container.decode(UInt64.self) {
         return U(num) as? T
     }  else if let num = try? container.decode(Double.self) {
@@ -172,11 +211,11 @@ private func decodeValue<T, U>(with container: SingleValueDecodingContainer, typ
     }
 }
 
-private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryFloatingPoint & LosslessStringConvertible {
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryFloatingPoint & CustomStringConvertible {
     if let num = try? container.decode(Int64.self) {
         return U(num) as? T
     } else if let str = try? container.decode(String.self) {
-        return U(str) as? T
+        return str as? T
     } else if let num = try? container.decode(UInt64.self) {
         return U(num) as? T
     } else if let num = try? container.decode(Double.self) {

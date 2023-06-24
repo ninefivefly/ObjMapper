@@ -9,6 +9,12 @@
 import UIKit
 import ObjMapper
 
+struct Response<T: Codable>: Codable {
+    var code: Int
+    var message: String
+    var data: [T]
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -23,6 +29,11 @@ class ViewController: UIViewController {
     
     ///类型自动转换
     func autoConversion() {
+        struct Activaty: Codable{
+            @Default<String.Empty> var name: String
+            @Backed var status: Int?
+        }
+        
         struct OptionObject: Codable {
             /*************************************/
             ///1.没有字段，默认nil
@@ -47,6 +58,8 @@ class ViewController: UIViewController {
             @Backed var double: Double?
             ///6.Float类型支持
             @Backed var float: Float?
+            ///7.数组类型支持
+            @Backed var activaties: [Activaty]?
         }
 
         struct Object: Codable {
@@ -73,6 +86,10 @@ class ViewController: UIViewController {
             @Default<Double.Zero> var double: Double
             ///6.Float类型支持
             @Default<Float.Zero> var float: Float
+            ///7.数组支持
+            @Default<Array.Empty> var activaties: [Activaty]
+            ///7.数组支持
+            @Default<Array.Empty> var emptyArray: [Int]
         }
 
         
@@ -87,7 +104,11 @@ class ViewController: UIViewController {
             "boolToInt": true,
             "double":14.1412312312312312,
             "float":15.0,
-            "status": 99999
+            "status": 99999,
+            "activaties": [{
+                "name": "元旦迎新活动",
+                "status": 4
+            }]
         }
         """
         ///可选类型自动转换
@@ -95,7 +116,10 @@ class ViewController: UIViewController {
         print("可选值：\(opt?.jsonString ?? "")")
         
         ///类型自动转换
-        let obj = Object.decodeJSON(from: json)
+        guard let obj = Object.decodeJSON(from: json) else {
+            print("decode json failed.")
+            return
+        }
         print("带默认值：\(obj.jsonString ?? "")")
     }
 
@@ -110,7 +134,10 @@ class ViewController: UIViewController {
                 case unknown = 0//默认值，无意义
                 
                 ///Step 2：实现DefaultValue协议，指定一个默认
-                static let defaultValue = Status.unknown
+//                static let defaultValue = Status.unknown
+                static func defaultValue() -> Status {
+                    return Status.unknown
+                }
             }
             
             @Default<String.Empty> var name: String
@@ -131,8 +158,6 @@ class ViewController: UIViewController {
         print("activity.status: \(activity.status)")
         ///
         print("json：\(activity.jsonString ?? "")")
-        
     }
-
 }
 
