@@ -28,7 +28,7 @@ pod 'ObjMapper'
 #### Swift Package Manager
 ```ruby
 dependencies: [
-    .package(url: "https://github.com/ninefivefly/ObjMapper.git", '2.0.3')
+    .package(url: "https://github.com/ninefivefly/ObjMapper.git", '3.0.0')
 ]
 ```
 
