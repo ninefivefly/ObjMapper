@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ObjMapper: 57a26dbe44cf667f5d85401b0e4c103b5dc9c132
+  ObjMapper: eb42f103be532c4a53fce6ff1538792fcf50253b
 
 PODFILE CHECKSUM: 9a54aae321bbb84fbfd1fdcc24ac848468d725e8
 
