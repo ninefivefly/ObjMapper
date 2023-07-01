@@ -298,3 +298,4 @@ JIANG PENG CHENG, ninefivefly@foxmail.com
 ## License
 
 ObjMapper is available under the MIT license. See the LICENSE file for more info.
+
