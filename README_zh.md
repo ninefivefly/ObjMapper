@@ -19,8 +19,16 @@ Language: 中文简体|[English](https://github.com/ninefivefly/ObjMapper/edit/m
 
 ## 安装
 
+#### CocoaPods
 ```ruby
 pod 'ObjMapper'
+```
+
+#### Swift Package Manager
+```ruby
+dependencies: [
+    .package(url: "https://github.com/ninefivefly/ObjMapper.git", '2.0.3')
+]
 ```
 
 ## 前言

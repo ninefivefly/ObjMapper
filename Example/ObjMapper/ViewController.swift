@@ -237,8 +237,8 @@ class ViewController: UIViewController {
         //model to json
         let json1 = rsp1.jsonString
         let json2 = rsp2.jsonString
-        // print(rsp1?.jsonString ?? "")
-        // print(rsp2?.jsonString ?? "")
+        print(rsp1?.jsonString ?? "")
+        print(rsp2?.jsonString ?? "")
     }
 }
 
