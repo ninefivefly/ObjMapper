@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ObjMapper'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = 'A simple json object mapper for swift.'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  ObjtMapper是基于Swift的Codable协议进行扩展的框架，可让您轻松地将模型对象（类和结构）与JSON相互转换，无副作用的转换。
+  ObjtMapper is an extended framework based on Swift's Codable protocol, which allows you to easily convert model objects (classes and structures) to and from JSON, conversion without side effects
                        DESC
 
   s.homepage         = 'https://github.com/ninefivefly/ObjMapper'
@@ -36,7 +36,5 @@ Pod::Spec.new do |s|
   #   'ObjMapper' => ['ObjMapper/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+
 end

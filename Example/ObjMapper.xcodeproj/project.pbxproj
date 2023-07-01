@@ -45,6 +45,7 @@
 		88ACF9506AE89399D427B228 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		AE6C63B9B097D5E5C8AB0ECF /* Pods_ObjMapper_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjMapper_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB47E6FECDAD310C0D0CF817 /* Pods-ObjMapper_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjMapper_Tests.debug.xcconfig"; path = "Target Support Files/Pods-ObjMapper_Tests/Pods-ObjMapper_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		E07F228E2A4FD35000A29676 /* README_zh.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README_zh.md; path = ../README_zh.md; sourceTree = "<group>"; };
 		F4519199AD0791948EDA83BC /* Pods-ObjMapper_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjMapper_Example.release.xcconfig"; path = "Target Support Files/Pods-ObjMapper_Example/Pods-ObjMapper_Example.release.xcconfig"; sourceTree = "<group>"; };
 		F46F83C9D0B3EC1174F43BE1 /* Pods_ObjMapper_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjMapper_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -145,6 +146,7 @@
 			children = (
 				0ACCEEC4D39A16C85F900379 /* ObjMapper.podspec */,
 				85B22D333F045ED2960A16AD /* README.md */,
+				E07F228E2A4FD35000A29676 /* README_zh.md */,
 				88ACF9506AE89399D427B228 /* LICENSE */,
 			);
 			name = "Podspec Metadata";

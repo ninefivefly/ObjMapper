@@ -4,309 +4,291 @@
 [![License](https://img.shields.io/cocoapods/l/ObjMapper.svg?style=flat)](https://cocoapods.org/pods/ObjMapper)
 [![Platform](https://img.shields.io/cocoapods/p/ObjMapper.svg?style=flat)](https://cocoapods.org/pods/ObjMapper)
 
-## 特性
-- [x] 基于Codable的扩展
-- [x] JSON映射为object
-- [x] object映射为JSON
-- [x] 嵌套对象
-- [x] 支持nil对象
-- [x] 支持默认值
-- [x] 支持数组默认值
-- [x] 支持String和整数、浮点数、Bool之间的转换
+ObjtMapper is an extended framework based on Swift's Codable protocol, which allows you to easily convert model objects (classes and structures) to and from JSON without side effects.
+Language: English|[中文简体](https://github.com/ninefivefly/ObjMapper/edit/main/README_zh.md)
 
-## 安装
+## Features
+- [x] Codable-based extensions
+- [x] JSON mapping to object
+- [x] object is mapped to JSON
+- [x] Nested objects
+- [x] supports nil objects
+- [x] supports default values
+- [x] supports array defaults
+- [x] Support conversion between String and integer, floating point number, Bool
+
+## Install
 
 ```ruby
 pod 'ObjMapper'
 ```
 
-## 前言
-### 为什么要有这个库？
+## Preface
+### Why do we have this library?
 
-在Swift开发中，JSON数据序列化是一个避不开的工作，Swift由于类型安全的特性，对于像JSON这类弱类型的数据处理一直是一个比较头疼的问题，Swift 4 带来的新特性中， Codable 协议让人眼前一亮。但是, Codable也不能完全满足我们的要求，比如不支持类型的自动转换、对默认值支持不友好。
-so，我们如果把这些问题解决了，是不是就完美啦
-[如何优雅的使用Codable协议](https://juejin.cn/post/6910094553684901895/)
+In Swift development, JSON data serialization is an unavoidable task. Due to the type safety feature of Swift, it has always been a headache to process weakly typed data like JSON. Among the new features brought by Swift 4 , the Codable protocol makes people shine. However, Codable cannot fully meet our requirements, such as not supporting automatic conversion of types, and not being friendly to default value support.
+So, if we solve these problems, will it be perfect?
+[How to use the Codable protocol gracefully](https://juejin.cn/post/6910094553684901895/)
 
-## 使用教程
-### 1、Model与JSON相互转换
+## Tutorial
+### 1. Convert between Model and JSON
 ```objc
 // JSON:
 {
-    "uid":888888,
-    "name":"Tom",
-    "age":10
+     "uid":888888,
+     "name": "Tom",
+     "age": 10
 }
 
 // Model:
 struct Dog: Codable{
-    //如果字段不是可选类型，则使用Default，提供一个默认值，像下面一样
-    @Default<Int.Zero> var uid: Int
-    //如果是可选类型，则使用Backed
-    @Backed var name: String?
-    @Backed var age: Int?
+     //If the field is not an optional type, use Default and provide a default value, like the following
+     @Default<Int. Zero> var uid: Int
+     //If it is an optional type, use Backed
+     @Backed var name: String?
+     @Backed var age: Int?
 }
 
 //JSON to model
-let dog = Dog.decodeJSON(from: json)
+let dog = Dog. decodeJSON(from: json)
 
 //model to json
 let json = dog.jsonString
 ```
 
-当 JSON/Dictionary 中的对象类型与 Model 属性不一致时，ObjMapper 将会进行如下自动转换。自动转换不支持的值将会被设置为nil或者默认值。
+When the object type in JSON/Dictionary is inconsistent with the Model property, ObjMapper will automatically convert as follows. Values not supported by automatic conversion will be set to nil or the default value.
 <table>
-  <thead>
-    <tr>
-      <th>JSON/Dictionary</th>
-      <th>Model</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>String</td>
-      <td>String，Number类型(包含整数，浮点数)，Bool</td>
-    </tr>
-    <tr>
-      <td>Number类型(包含整数，浮点数)</td>
-      <td>Number类型，String，Bool</td>
-    </tr>
-    <tr>
-      <td>Bool</td>
-      <td>Bool，String，Number类型(包含整数，浮点数)</td>
-    </tr>
-    <tr>
-      <td>nil</td>
-      <td>nil,0</td>
-    </tr>
-  </tbody>
+   <thead>
+     <tr>
+       <th>JSON/Dictionary</th>
+       <th>Model</th>
+     </tr>
+   </thead>
+   <tbody>
+     <tr>
+       <td>String</td>
+       <td>String, Number type (including integer, floating point number), Bool</td>
+     </tr>
+     <tr>
+       <td>Number type (including integer, floating point number)</td>
+       <td>Number type, String, Bool</td>
+     </tr>
+     <tr>
+       <td>Bool</td>
+       <td>Bool, String, Number types (including integers, floating point numbers)</td>
+     </tr>
+     <tr>
+       <td>nil</td>
+       <td>nil,0</td>
+     </tr>
+   </tbody>
 </table>
 
-### 2、Model的嵌套
+### 2. Model nesting
 ```objc
+let raw_json = """
 {
-    "author":{
-        "id": 888888
-        "name":"Alex",
-        "age":"10"
-    },
-    "title":"model与json互转",
-    "subTitle":"如何优雅的转换"
+     "author": {
+         "id": 888888,
+         "name": "Alex",
+         "age": "10"
+     },
+     "title": "model and json conversion",
+     "subTitle":"How to convert gracefully"
 }
+"""
 
 // Model:
 struct Author: Codable{
-    @Default<Int.Zero> var uid: Int
-    @Default<String.Empty> var name: String
-    //使用Backed后，如果类型不匹配，则类型会自动转换
-    //比如，上面的json中，age是个字符串，我们定义的模型是Int,
-    //那么声明@Backed后，会自动转换成Int类型
-    @Backed var age: Int?
+     @Default<Int. Zero> var id: Int
+     @Default<String. Empty> var name: String
+     // After using Backed, if the type does not match, the type will be automatically converted
+     //For example, in the above json, age is a string, and the model we defined is Int,
+     //Then after declaring @Backed, it will be automatically converted to Int type
+     @Backed var age: Int?
 }
 
 struct Article: Codable {
-    //如果json中的title为nil或者不存在，则会给title赋一个默认值
-    @Default<String.Empty> var title: String
-    var subTitle: String?
-    var author: Author
+     //If the title in json is nil or does not exist, a default value will be assigned to the title
+     @Default<String. Empty> var title: String
+     var subTitle: String?
+     var author: Author
 }
-
-struct Activity: Codable {
-    ///Step 1：让Status遵循DefaultValue协议
-    enum Status: Int, Codable, DefaultValue {
-        case start = 1//活动开始
-        case processing = 2//活动进行中
-        case end = 3//活动结束
-        case unknown = 0//默认值，无意义
-        
-        ///Step 2：实现DefaultValue协议，指定一个默认
-        static func defaultValue() -> Status {
-            return Status.unknown
-        }
-    }
-    
-    @Default<String.Empty> var name: String
-    ///Step 3：使用Default
-    @Default<Status> var status: Status//活动状态
-}
-
-///对可选类型值的支持
-let json = """
-{
-    "name": "元旦迎新活动",
-    "status": 4
-}
-"""
-///可选类型自动转换
-let activity = Activity.decodeJSON(from: json)!
-///activity的status，转换为unknown
-print("activity.status: \(activity.status)")
-///
-print("json：\(activity.jsonString ?? "")")
 
 //JSON to model
-let article = Article.decodeJSON(from: json)
+let article = Article. decodeJSON(from: raw_json)
 
 //model to json
 let json = article.jsonString
+print(article?.jsonString ?? "")
 ```
 
-### 3、自定义类型的可选值
-话不多说，上代码
+### 3. Optional values of custom types
+Without further ado, let's go to the code
 ```objc
 struct Activity: Codable {
-    enum Status: Int {
-        case start = 1//活动开始
-        case processing = 2//活动进行中
-        case end = 3//活动结束
-    }
+     enum Status: Int {
+         case start = 1//Activity starts
+         case processing = 2//Activity in progress
+         case end = 3//end of event
+     }
     
-    @Default<String.Empty> var name: String
-    var status: Status//活动状态
+     @Default<String. Empty> var name: String
+     var status: Status//active status
 }
 ```
-这儿有一个活动，活动现目前有三种状态，到目前为止，一切都很美好。有一天，突然说需要给活动添加已下架的状态，what？
+Here's an activity that currently has three states, so far so good. One day, I suddenly said that I need to add a delisted status to the event, what?
 ```
 //JSON
 {
-    "name": "元旦迎新活动",
-    "status": 4
+     "name": "New Year's Day Welcome Event",
+     "status": 4
 }
 ```
-用Activity解析上面的JSON就会报错，我们如何规避呢，像下面一样
+Using Activity to parse the above JSON will report an error, how can we avoid it, like the following
 ```
 var status: Status?
 ```
-答案是no、no、no，因为可选值的解码所表达的是“如果不存在，则置为 nil”，而不是“如果解码失败，则置为 nil”，那就用我们的Default吧，请看下面代码:
+The answer is no, no, no, because the decoding of the optional value expresses "if it does not exist, set it to nil" instead of "if the decoding fails, set it to nil", then use our Default, Please see the code below:
 ```
 struct Activity: Codable {
-    ///Step 1：让Status遵循DefaultValue协议
-    enum Status: Int, Codable, DefaultValue {
-        case start = 1//活动开始
-        case processing = 2//活动进行中
-        case end = 3//活动结束
-        case unknown = 0//默认值，无意义
+     ///Step 1: Let Status follow the DefaultValue protocol
+     enum Status: Int, Codable, DefaultValue {
+         case start = 1//Activity starts
+         case processing = 2//Activity in progress
+         case end = 3//end of event
+         case unknown = 0//default value, meaningless
         
-        ///Step 2：实现DefaultValue协议，指定一个默认值
-        static func defaultValue() -> Status {
-            return Status.unknown
-        }
-    }
+         ///Step 2: Implement the DefaultValue protocol and specify a default value
+         static func defaultValue() -> Status {
+             return Status.unknown
+         }
+     }
     
-    @Default<String.Empty> var name: String
-    ///Step 3：使用Default
-    @Default<Status> var status: Status//活动状态
+     @Default<String. Empty> var name: String
+     ///Step 3: Use Default
+     @Default<Status> var status: Status//active status
 }
 
-//{"name": "元旦迎新活动", "status": 4 }
-//Activity将会把status解析成unknown
+//{"name": "New Year's Day Welcome Event", "status": 4 }
+//Activity will parse the status into unknown
 ```
 
-### 4、为普通类型设置不一样的默认值
-本库已经内置了很多默认值，比如Int.Zero, Bool.True, String.Empty...，如果我们想为字段设置不一样的默认值，见下面代码：
+### 4. Set different default values for common types
+This library has built-in many default values, such as Int.Zero, Bool.True, String.Empty..., if we want to set a different default value for the field, see the following code:
 
 ```
 public extension Int {
-    enum One: DefaultValue {
-        static func defaultValue() -> Int {
-            return 1
-        }
-    }
+     enum One: DefaultValue {
+         static func defaultValue() -> Int {
+             return 1
+         }
+     }
 }
 
 struct Dog: Codable{
-    @Backed var name: String?
-    @Default<Int.Zero> var uid: Int
-    //如果json中没有age字段或者解析失败，则模型的age被设置成默认值1
-    @Default<Int.One> var age: Int
+     @Backed var name: String?
+     @Default<Int. Zero> var uid: Int
+     //If there is no age field in json or the parsing fails, the age of the model is set to the default value 1
+     @Default<Int.One> var age: Int
 }
 ```
 
-### 5、数组支持
+### 5. Array support
+For arrays, @Backed, @Default can be used to resolve
 ```objc
 // JSON:
+let raw_json = """
 {
-    "code":0,
-    "message":"success",
-    "data": [{
-        "name": "元旦迎新活动",
-        "status": 4
-    }]
+     "code": 0,
+     "message": "success",
+     "data": [{
+         "name": "New Year's Day Welcome Event",
+         "status": 4
+     }]
 }
-```
-对于数组，可以使用@Backed,@Default来解析
-```
+"""
+
 struct Activaty: Codable{
-    @Default<String.Empty> var name: String
-    @Default<Int.Zero> var status: Int
+     @Default<String. Empty> var name: String
+     @Default<Int. Zero> var status: Int
 }
 
-// 如果数组是可选类型，可以使用@Backed
-struct Response: Codable { 
-    @Default<Int.Zero> var code: Int
-    @Default<String.Empty> var message: String
-    @Backed var data: [Activaty]?
+// If the array is an optional type, you can use @Backed
+struct Response1: Codable {
+     @Default<Int. Zero> var code: Int
+     @Default<String. Empty> var message: String
+     @Backed var data: [Activaty]?
 }
 
-// 为数组，设置默认值，如果数组不存在或者解析错误，则使用默认值
-struct Response: Codable { 
-    @Default<Int.Zero> var code: Int
-    @Default<String.Empty> var message: String
-    @Default<Array.Empty> var data: [Activaty]
+// For the array, set the default value, if the array does not exist or the parsing error, use the default value
+struct Response2: Codable {
+     @Default<Int. Zero> var code: Int
+     @Default<String. Empty> var message: String
+     @Default<Array. Empty> var data: [Activaty]
 }
+//JSON to model
+let rsp1 = Response1. decodeJSON(from: raw_json)
+let rsp2 = Response2. decodeJSON(from: raw_json)
+
+//model to json
+let json1 = rsp1.jsonString
+let json2 = rsp2.jsonString
+// print(rsp1?.jsonString ?? "")
+// print(rsp2?.jsonString ?? "")
 ```
 
 
-
-### 6、设置通用类型
-我们在开发过程中，第一个遇到的json可能是这样的：
+### 6. Set the general type
+During the development process, the first JSON we encounter may look like this:
 ```objc
 // JSON:
 {
-    "code":0,
-    "message":"success",
-    "data":[]//这个data可以是任何类型
+     "code": 0,
+     "message": "success",
+     "data":[]//This data can be of any type
 }
 ```
-由于data字段的类型不固定，有时候为了统一处理，我们定义模型可以像下面这样，有枚举类型JsonValue来表示。
+Since the type of the data field is not fixed, sometimes for unified processing, we define the model as follows, represented by the enumeration type JsonValue.
 ```
-struct Response: Codable { 
-    var code: Int
-    var message: String
-    var data: JsonValue?
+struct Response: Codable {
+     var code: Int
+     var message: String
+     var data: JsonValue?
 }
 ```
-如果要取data字段的值，我们可以这样用data?.intValue或者data?.arrayValue等等，具体使用见源码。
+If you want to get the value of the data field, we can use data?.intValue or data?.arrayValue, etc., see the source code for specific usage.
 
-注意：这种对于data是一个简单的model（比如就是一个整形、字符串等等），可以起到事半功倍的效果；如果data是一个大型model，建议还是将data指定为具体类型。
+Note: This is a simple model for data (such as an integer, string, etc.), which can achieve twice the result with half the effort; if the data is a large model, it is recommended to specify the data as a specific type.
 
 
-### 7、如果是从1.0.x升级到2.0版本，修改了DefaultValue协议。如果之前的代码中使用了DefaultValue协议，则会报错，修改如下：
+### 7. If you are upgrading from 1.0.x to 2.0, the DefaultValue protocol has been modified. If the DefaultValue protocol is used in the previous code, an error will be reported, and the modification is as follows:
 
 ```
-原来为：
-///Step 1：让Status遵循DefaultValue协议
+Originally:
+///Step 1: Let Status follow the DefaultValue protocol
 enum Status: Int, Codable, DefaultValue {
-    case start = 1//活动开始
+     case start = 1//Activity starts
     
-    ///Step 2：实现DefaultValue协议，指定一个默认值
-    static let defaultValue = Status.unknown
+     ///Step 2: Implement the DefaultValue protocol and specify a default value
+     static let defaultValue = Status.unknown
 }
 
-修改成：
-///Step 1：让Status遵循DefaultValue协议
+changed to:
+///Step 1: Let Status follow the DefaultValue protocol
 enum Status: Int, Codable, DefaultValue {
-    case start = 1//活动开始
+     case start = 1//Activity starts
     
-    ///Step 2：实现DefaultValue协议，返回一个默认值
-    static func defaultValue() -> Status {
-        return Status.unknown
-    }
+     ///Step 2: Implement the DefaultValue protocol and return a default value
+     static func defaultValue() -> Status {
+         return Status.unknown
+     }
 }
 
 ```
 
 
-ps: 不喜勿喷，有问题请留言😁😁😁，欢迎✨✨✨star✨✨✨和PR
+ps: Don’t spray if you don’t like it, please leave a message if you have any questions 😁😁😁, welcome ✨✨✨star✨✨✨ and PR
 
 ## Author
 

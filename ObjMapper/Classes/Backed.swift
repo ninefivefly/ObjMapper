@@ -195,11 +195,11 @@ public extension Array where Array.Element: Codable {
     }
 }
 
-private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryInteger & CustomStringConvertible {
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryInteger & LosslessStringConvertible {
     if let num = try? container.decode(Int64.self) {
         return U(num) as? T
     } else if let str = try? container.decode(String.self) {
-        return str as? T
+        return U(str) as? T
     } else if let num = try? container.decode(UInt64.self) {
         return U(num) as? T
     }  else if let num = try? container.decode(Double.self) {
@@ -211,11 +211,11 @@ private func decodeValue<T, U>(with container: SingleValueDecodingContainer, typ
     }
 }
 
-private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryFloatingPoint & CustomStringConvertible {
+private func decodeValue<T, U>(with container: SingleValueDecodingContainer, type: U) -> T? where U: BinaryFloatingPoint & LosslessStringConvertible {
     if let num = try? container.decode(Int64.self) {
         return U(num) as? T
     } else if let str = try? container.decode(String.self) {
-        return str as? T
+        return U(str) as? T
     } else if let num = try? container.decode(UInt64.self) {
         return U(num) as? T
     } else if let num = try? container.decode(Double.self) {
