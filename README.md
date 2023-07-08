@@ -37,7 +37,7 @@ dependencies: [
 
 In Swift development, JSON data serialization is an unavoidable task. Due to the type safety feature of Swift, it has always been a headache to process weakly typed data like JSON. Among the new features brought by Swift 4 , the Codable protocol makes people shine. However, Codable cannot fully meet our requirements, such as not supporting automatic conversion of types, and not being friendly to default value support.
 So, if we solve these problems, will it be perfect?
-[How to use the Codable protocol gracefully](https://juejin.cn/post/6910094553684901895/)
+[How to use the Codable protocol gracefully](https://juejin.cn/post/7252499099328086074)
 
 ## Tutorial
 ### 1. Convert between Model and JSON
