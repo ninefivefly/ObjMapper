@@ -36,7 +36,7 @@ dependencies: [
 
 在Swift开发中，JSON数据序列化是一个避不开的工作，Swift由于类型安全的特性，对于像JSON这类弱类型的数据处理一直是一个比较头疼的问题，Swift 4 带来的新特性中， Codable 协议让人眼前一亮。但是, Codable也不能完全满足我们的要求，比如不支持类型的自动转换、对默认值支持不友好。
 so，我们如果把这些问题解决了，是不是就完美啦
-[如何优雅的使用Codable协议](https://juejin.cn/post/6910094553684901895/)
+[如何优雅的使用Codable协议](https://juejin.cn/post/7252499099328086074)
 
 ## 使用教程
 ### 1、Model与JSON相互转换
