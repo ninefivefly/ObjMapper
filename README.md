@@ -52,14 +52,14 @@ So, if we solve these problems, will it be perfect?
 // Model:
 struct Dog: Codable{
      //If the field is not an optional type, use Default and provide a default value, like the following
-     @Default<Int. Zero> var uid: Int
+     @Default<Int.Zero> var uid: Int
      //If it is an optional type, use Backed
      @Backed var name: String?
      @Backed var age: Int?
 }
 
 //JSON to model
-let dog = Dog. decodeJSON(from: json)
+let dog = Dog.decodeJSON(from: json)
 
 //model to json
 let json = dog.jsonString
