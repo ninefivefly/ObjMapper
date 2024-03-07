@@ -109,8 +109,8 @@ let raw_json = """
 
 // Model:
 struct Author: Codable{
-     @Default<Int. Zero> var id: Int
-     @Default<String. Empty> var name: String
+     @Default<Int.Zero> var id: Int
+     @Default<String.Empty> var name: String
      // After using Backed, if the type does not match, the type will be automatically converted
      //For example, in the above json, age is a string, and the model we defined is Int,
      //Then after declaring @Backed, it will be automatically converted to Int type
@@ -119,13 +119,13 @@ struct Author: Codable{
 
 struct Article: Codable {
      //If the title in json is nil or does not exist, a default value will be assigned to the title
-     @Default<String. Empty> var title: String
+     @Default<String.Empty> var title: String
      var subTitle: String?
      var author: Author
 }
 
 //JSON to model
-let article = Article. decodeJSON(from: raw_json)
+let article = Article.decodeJSON(from: raw_json)
 
 //model to json
 let json = article.jsonString
@@ -142,7 +142,7 @@ struct Activity: Codable {
          case end = 3//end of event
      }
     
-     @Default<String. Empty> var name: String
+     @Default<String.Empty> var name: String
      var status: Status//active status
 }
 ```
@@ -174,7 +174,7 @@ struct Activity: Codable {
          }
      }
     
-     @Default<String. Empty> var name: String
+     @Default<String.Empty> var name: String
      ///Step 3: Use Default
      @Default<Status> var status: Status//active status
 }
@@ -197,7 +197,7 @@ public extension Int {
 
 struct Dog: Codable{
      @Backed var name: String?
-     @Default<Int. Zero> var uid: Int
+     @Default<Int.Zero> var uid: Int
      //If there is no age field in json or the parsing fails, the age of the model is set to the default value 1
      @Default<Int.One> var age: Int
 }
@@ -219,26 +219,26 @@ let raw_json = """
 """
 
 struct Activaty: Codable{
-     @Default<String. Empty> var name: String
-     @Default<Int. Zero> var status: Int
+     @Default<String.Empty> var name: String
+     @Default<Int.Zero> var status: Int
 }
 
 // If the array is an optional type, you can use @Backed
 struct Response1: Codable {
-     @Default<Int. Zero> var code: Int
+     @Default<Int.Zero> var code: Int
      @Default<String. Empty> var message: String
      @Backed var data: [Activaty]?
 }
 
 // For the array, set the default value, if the array does not exist or the parsing error, use the default value
 struct Response2: Codable {
-     @Default<Int. Zero> var code: Int
-     @Default<String. Empty> var message: String
-     @Default<Array. Empty> var data: [Activaty]
+     @Default<Int.Zero> var code: Int
+     @Default<String.Empty> var message: String
+     @Default<Array.Empty> var data: [Activaty]
 }
 //JSON to model
-let rsp1 = Response1. decodeJSON(from: raw_json)
-let rsp2 = Response2. decodeJSON(from: raw_json)
+let rsp1 = Response1.decodeJSON(from: raw_json)
+let rsp2 = Response2.decodeJSON(from: raw_json)
 
 //model to json
 let json1 = rsp1.jsonString
