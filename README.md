@@ -43,15 +43,18 @@ So, if we solve these problems, will it be perfect?
 ### 1. Convert between Model and JSON
 ```objc
 // JSON:
+json = """
 {
      "uid":888888,
      "name": "Tom",
      "age": 10
 }
+"""
 
 // Model:
 struct Dog: Codable{
-     //If the field is not an optional type, use Default and provide a default value, like the following
+     //If the field is not an optional type,
+     //use Default and provide a default value, like the following
      @Default<Int.Zero> var uid: Int
      //If it is an optional type, use Backed
      @Backed var name: String?
